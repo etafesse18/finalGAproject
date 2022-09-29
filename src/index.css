@@ -71,6 +71,11 @@ p{
   width: 800px;
 }
 
+.btn-1{
+  width:100px ;
+  height: 30px;
+}
+
 @media (min-width: 640px){
   .meals article {
     grid-template-columns: repeat(2, 1fr);

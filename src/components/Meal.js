@@ -4,6 +4,18 @@ import axios from 'axios'
 const Meal = () => {
   const [food, setFood] = useState([])
 
+  const [showingFav, setshowingFav] = useState(false)
+
+  const [favList, setfavList] = useState([])
+
+  const handleFavAddClick = (f) => {
+    setfavList((preState) => [...preState, f])
+  }
+
+  const addtoFavorite = (meal) => {
+    setfavList([...favList, meal])
+  }
+
   const getFood = async () => {
     try {
       const res = await axios.get(
@@ -16,11 +28,6 @@ const Meal = () => {
     }
   }
 
-  //const res = await axios.get('www.themealdb.com/api/json/v1/1/random.php')
-  //  console.log(res.data.meals)
-  // setFood(res.data.meals)
-  //}
-
   useEffect(() => {
     getFood()
   }, [])
@@ -31,7 +38,21 @@ const Meal = () => {
         <button onClick={() => getFood()} className="btn">
           Generate Meal
         </button>
+        <button onClick={() => setshowingFav(!showingFav)} className="btn">
+          Favorite meals
+        </button>
       </div>
+      {showingFav ? (
+        <div>
+          <ul>
+            {favList.map((f) => (
+              <li key={f} onClick={() => handleFavAddClick(f)}>
+                {f}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
 
       {food.map((foods) => {
         const {
@@ -50,7 +71,11 @@ const Meal = () => {
             <div>
               <h2>{strMeal}</h2>
               <img src={strMealThumb} alt={strMeal}></img>
+              <button onClick={() => addtoFavorite(strMeal)} className="btn-1">
+                Add to Favorites
+              </button>
             </div>
+
             <div>
               <h3> Ingredients Needed: </h3>
               <p>
